@@ -1,0 +1,769 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Rest Planning",
+		"_postman_id": "0165f1ef-99b8-d674-1cf5-e35e283d42da",
+		"description": "Test for boats Rest Planning",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add",
+			"description": "",
+			"item": [
+				{
+					"name": "post boats",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 201\"] = responseCode.code === 201;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/boats",
+						"method": "POST",
+						"header": [
+							{
+								"key": "//Authorization",
+								"value": "Bearer 925cbb74b431e387e2b35a9ab9d53ba3dfebb0bc",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\":\"pequod1\"\r\n \r\n}"
+						},
+						"description": "return boats"
+					},
+					"response": []
+				},
+				{
+					"name": "get boats",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var boatResponse = JSON.parse(responseBody); ",
+									"",
+									"var id = boatResponse[0].id;",
+									"postman.setGlobalVariable(\"boat_id\", id);",
+									"postman.getGlobalVariable(\"boat_id\");",
+									"console.log(id);",
+									"",
+									"",
+									"tests[\"All boats viewed successfully\"] = responseCode.code === 200;",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/boats",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 925cbb74b431e387e2b35a9ab9d53ba3dfebb0bc",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"description\": \"Editing the gist\",\r\n  \"name\": \"Pequod\",\r\n  \"type\": \"yacht\",\r\n  \"length\": 20,\r\n  \r\n}"
+						},
+						"description": "return boats"
+					},
+					"response": []
+				},
+				{
+					"name": "at sea",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var boatResponse = JSON.parse(responseBody); ",
+									"tests[\"boat at sea\"] = boatResponse.at_sea;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/boats/{{boat_id}}",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"description\": \"Editing the gist\",\r\n  \"name\": \"Pequod\",\r\n  \"type\": \"yacht\",\r\n  \"length\": 20,\r\n  \r\n}"
+						},
+						"description": "return boats"
+					},
+					"response": []
+				},
+				{
+					"name": "post slips",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Successful add to slips\"] = responseCode.code === 201;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/slips",
+						"method": "POST",
+						"header": [
+							{
+								"key": "//Authorization",
+								"value": "Bearer 925cbb74b431e387e2b35a9ab9d53ba3dfebb0bc",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"number\": 111\r\n}"
+						},
+						"description": "return slips"
+					},
+					"response": []
+				},
+				{
+					"name": "get slips",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var boatResponse = JSON.parse(responseBody); ",
+									"",
+									"",
+									"var id = boatResponse[0].id;",
+									"postman.setGlobalVariable(\"slip_id\", id);",
+									"postman.getGlobalVariable(\"slip_id\");",
+									"console.log(id);",
+									"tests[\"All slips viewed successfully\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/slips",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 925cbb74b431e387e2b35a9ab9d53ba3dfebb0bc",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"description\": \"Editing the gist\",\r\n  \"name\": \"Pequod\",\r\n  \"type\": \"yacht\",\r\n  \"length\": 20,\r\n  \r\n}"
+						},
+						"description": "return slips"
+					},
+					"response": []
+				},
+				{
+					"name": "is empty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"var slipResponse = JSON.parse(responseBody); ",
+									"console.log(slipResponse.current_boat)",
+									"tests[\"New slip is empty\"] = slipResponse.current_boat === \"null\" || \"empty\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/slips/{{slip_id}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 925cbb74b431e387e2b35a9ab9d53ba3dfebb0bc",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"description\": \"Editing the gist\",\r\n  \"name\": \"Pequod\",\r\n  \"type\": \"yacht\",\r\n  \"length\": 20,\r\n  \r\n}"
+						},
+						"description": "makes sure newly cleated slip is empty"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete",
+			"description": "Showing Delete Functionality",
+			"item": [
+				{
+					"name": "post boats delte",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 201;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/boats",
+						"method": "POST",
+						"header": [
+							{
+								"key": "//Authorization",
+								"value": "Bearer 925cbb74b431e387e2b35a9ab9d53ba3dfebb0bc",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\":\"Delete_Me\"\r\n}"
+						},
+						"description": "return boats"
+					},
+					"response": []
+				},
+				{
+					"name": "get boats3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var boatResponse = JSON.parse(responseBody); ",
+									"",
+									"var id = boatResponse[0].id;",
+									"postman.setGlobalVariable(\"boat_id\", id);",
+									"postman.getGlobalVariable(\"boat_id\");",
+									"console.log(id);",
+									"",
+									"",
+									"tests[\"Successfully\"] = responseCode.code === 200;",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:8080/boats",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 925cbb74b431e387e2b35a9ab9d53ba3dfebb0bc",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"description\": \"Editing the gist\",\r\n  \"name\": \"Pequod\",\r\n  \"type\": \"yacht\",\r\n  \"length\": 20,\r\n  \r\n}"
+						},
+						"description": "return boats"
+					},
+					"response": []
+				},
+				{
+					"name": "delete boat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"boat successfully deleted\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/boats/{{boat_id}}",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "post slips delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 201\"] = responseCode.code === 201;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/slips",
+						"method": "POST",
+						"header": [
+							{
+								"key": "//Authorization",
+								"value": "Bearer 925cbb74b431e387e2b35a9ab9d53ba3dfebb0bc",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"number\":666\r\n}"
+						},
+						"description": "return slips"
+					},
+					"response": []
+				},
+				{
+					"name": "get slips3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var boatResponse = JSON.parse(responseBody); ",
+									"",
+									"",
+									"var id = boatResponse[0].id;",
+									"postman.setGlobalVariable(\"boat_id\", id);",
+									"postman.getGlobalVariable(\"boat_id\");",
+									"console.log(id);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/slips",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 925cbb74b431e387e2b35a9ab9d53ba3dfebb0bc",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"description\": \"Editing the gist\",\r\n  \"name\": \"Pequod\",\r\n  \"type\": \"yacht\",\r\n  \"length\": 20,\r\n  \r\n}"
+						},
+						"description": "return slips"
+					},
+					"response": []
+				},
+				{
+					"name": "delete slip",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"slip successfully deleted\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:8080/slips/{{slip_id}}",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Invalid",
+			"description": "Make sure we cant add invaild boats or slips",
+			"item": [
+				{
+					"name": "get boats2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var boatResponse = JSON.parse(responseBody); ",
+									"",
+									"var id = boatResponse[0].id;",
+									"postman.setGlobalVariable(\"boat_id\", id);",
+									"postman.getGlobalVariable(\"boat_id\");",
+									"console.log(id);",
+									"",
+									"",
+									"tests[\"Successfully\"] = responseCode.code === 200;",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:8080/boats",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 925cbb74b431e387e2b35a9ab9d53ba3dfebb0bc",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"description\": \"Editing the gist\",\r\n  \"name\": \"Pequod\",\r\n  \"type\": \"yacht\",\r\n  \"length\": 20,\r\n  \r\n}"
+						},
+						"description": "return boats"
+					},
+					"response": []
+				},
+				{
+					"name": "post boats invalid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Failed to Post invalid boat\"] = responseCode.code !== 201;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/boats",
+						"method": "POST",
+						"header": [
+							{
+								"key": "//Authorization",
+								"value": "Bearer 925cbb74b431e387e2b35a9ab9d53ba3dfebb0bc",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\":\"\"\r\n \r\n}"
+						},
+						"description": "return boats"
+					},
+					"response": []
+				},
+				{
+					"name": "get slips2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var boatResponse = JSON.parse(responseBody); ",
+									"",
+									"",
+									"var id = boatResponse[0].id;",
+									"postman.setGlobalVariable(\"slip_id\", id);",
+									"postman.getGlobalVariable(\"slip_id\");",
+									"console.log(id);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/slips",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 925cbb74b431e387e2b35a9ab9d53ba3dfebb0bc",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"description\": \"Editing the gist\",\r\n  \"name\": \"Pequod\",\r\n  \"type\": \"yacht\",\r\n  \"length\": 20,\r\n  \r\n}"
+						},
+						"description": "return slips"
+					},
+					"response": []
+				},
+				{
+					"name": "post slips invalid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Failed to post invalid slip\"] = responseCode.code !== 201;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/slips",
+						"method": "POST",
+						"header": [
+							{
+								"key": "//Authorization",
+								"value": "Bearer 925cbb74b431e387e2b35a9ab9d53ba3dfebb0bc",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"number\":\"\"\r\n}"
+						},
+						"description": "return slips"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "patch",
+			"description": "",
+			"item": [
+				{
+					"name": "patch boat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"",
+									"",
+									"",
+									"tests[\"boat updated\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/boats/{{boat_id}}",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 925cbb74b431e387e2b35a9ab9d53ba3dfebb0bc",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Edit_Ships\"\r\n}"
+						},
+						"description": "edit boat"
+					},
+					"response": []
+				},
+				{
+					"name": "patch slip",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"slip updated\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/slips/{{slip_id}}",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 925cbb74b431e387e2b35a9ab9d53ba3dfebb0bc",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"number\": 7\r\n}"
+						},
+						"description": "edit slip"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "put",
+			"description": "",
+			"item": [
+				{
+					"name": "get boats1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var boatResponse = JSON.parse(responseBody); ",
+									"",
+									"var id = boatResponse[0].id;",
+									"postman.setGlobalVariable(\"boat_id\", id);",
+									"postman.getGlobalVariable(\"boat_id\");",
+									"console.log(id);",
+									"",
+									"",
+									"tests[\"Successfully\"] = responseCode.code === 200;",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:8080/boats",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 925cbb74b431e387e2b35a9ab9d53ba3dfebb0bc",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"description\": \"Editing the gist\",\r\n  \"name\": \"Pequod\",\r\n  \"type\": \"yacht\",\r\n  \"length\": 20,\r\n  \r\n}"
+						},
+						"description": "return boats"
+					},
+					"response": []
+				},
+				{
+					"name": "putBoat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Put successful on boat\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:8080/boats/{{boat_id}}",
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\":\"putboat\"\r\n \r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get slips1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var boatResponse = JSON.parse(responseBody); ",
+									"",
+									"",
+									"var id = boatResponse[0].id;",
+									"postman.setGlobalVariable(\"boat_id\", id);",
+									"postman.getGlobalVariable(\"boat_id\");",
+									"console.log(id);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:8080/slips",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 925cbb74b431e387e2b35a9ab9d53ba3dfebb0bc",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"description\": \"Editing the gist\",\r\n  \"name\": \"Pequod\",\r\n  \"type\": \"yacht\",\r\n  \"length\": 20,\r\n  \r\n}"
+						},
+						"description": "return slips"
+					},
+					"response": []
+				},
+				{
+					"name": "putSlip",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Put successful on slip\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:8080/slips/{{slip_id}}",
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"number\": 79\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
